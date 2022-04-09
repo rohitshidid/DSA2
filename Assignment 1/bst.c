@@ -1,47 +1,22 @@
-#include "bst.h"
 #include<stdio.h>
-#include<stdlib.h>
+#include"bst.h"
 
-void init_bst(bst *t){
-(*t) = NULL;
-return;
+int main(){
+    bst t1;
+    init_bst(&t1);
+    insert_node(&t1,80);
+    insert_node(&t1,70);
+    insert_node(&t1,100);
+    insert_node(&t1,90);
+    insert_node(&t1,120);
+    insert_node(&t1,85);
+    insert_node(&t1,62);
+    insert_node(&t1,32);
+    insert_node(&t1,15);
 
+    //inorder(t1);
+    search(t1,232);
 
-}
-
-void insert_node(bst *t, int d){
-	
-	node *temp;
-	temp = malloc(sizeof(node));
-
-
-	if ((*t) == NULL)
-	{
-	
-		temp->data = d;
-		temp->right = NULL;
-		temp->left=NULL;
-		(*t) = temp;
-	}
-	else{
-		if(d == temp->data)
-		printf("Node ALready inserted");
-		else if(d > temp->data){
-		
-		}
-	}
-
-}
-
-
-void traverse(bst t){
-	if(t==NULL){
-		printf("Tree is Empty");
-
-	}else{
-
-		printf("%d", t->data);
-
-
-	}
+    postorder(t1);
+    //display_level(t1,3);
 }
