@@ -52,7 +52,7 @@ void insert_node(bst *t, int mis, char name[20]){
 }
 
 void postorder(bst t){
-    if(!t){
+    if(t==NULL){
         return;
     }
     if(t->left)
@@ -79,18 +79,15 @@ void search(bst t, int mis){
 
 }
 
-void delete(bst *t){
+void destroy(bst *t){
     if(!(*t)){
         return;
     }
-    if((*t)->left){
-        (*t)=(*t)->left;
-    }
-    if((*t)->right){
-        (*t)=(*t)->right;
-    }
+    destroy(&(*t)->left);
+    destroy(&(*t)->right);
     free((*t));
-    (*t)=NULL;
+    (*t) =NULL;
+    //printf("Node deleted");
 }
 
 
@@ -100,7 +97,7 @@ void display_level(bst t,int lev){
     return;
 
     if(lev == 1){
-        printf("MIS: %d  NAME: %s \n ",t->mis,t->name);
+        printf("MIS: %d  NAME: %s \n",t->mis,t->name);
     }
     if(lev > 1){
         if(t->left)
@@ -114,15 +111,75 @@ void display_level(bst t,int lev){
 void delete_node(bst *t, int key){
     if((*t)==NULL)
     return;
-
     node *p,*q;
     p=(*t);
     q = NULL;
+
+    // rootnode with zero child
+    if(p->mis == key && q==NULL && p->left==NULL &&p->right==NULL){
+	free(p);
+	p = NULL;
+	return;
+    }
+    // root with one child
     if(p->mis == key && q == NULL && p->left){
         q = p;
         p = p->left;
-        
         free(q);
+	return;
     }
+    if(p->mis == key && q == NULL && p->right){
+	q=p;
+	p=p->right;
+	free(q);
+	return;
+   }
+
+    // leaf nodes
+   while(1){	   
+     if(key > p->mis &&p->right){
+    	q=p;
+	p=p->right;
+    }
+     if(key < p->mis && p->left){
+	q=p;
+	p=p->left;
+     }
+
+    if(p->right == NULL && p->mis == key && p->left==NULL){
+	p=NULL;
+	free(p);
+	printf("Leaf node deleted successfully");
+	return;
+   
+    }
+    // node in middle with some child node
+    if(p->mis == key &&(p->right || p->left)){
+	
+	// one child node
+	if (p->right && !p->left){
+		q = p->right;
+		p->right=p->right->right;
+		free(q);
+		q=NULL;
+	}
+	if(p->left && !p->right){
+		q= p->left;
+		p->left = p->left->left;
+		free(q);
+		q=NULL
+	}
+
+	// Multiple node
+	// code from here
+
+    }
+
+   }
+
     
+   
+   
+	
+
 }
