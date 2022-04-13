@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+
 typedef struct Node{
     int mis;
     char name [20];
@@ -51,16 +52,6 @@ void insert_node(bst *t, int mis, char name[20]){
 
 }
 
-void postorder(bst t){
-    if(t==NULL){
-        return;
-    }
-    if(t->left)
-    postorder(t->left);
-    if(t->right)
-    postorder(t->right);
-    printf("%d \t %s\n",t->mis,t->name) ;
-}
 
 
 void search(bst t, int mis){
@@ -108,78 +99,110 @@ void display_level(bst t,int lev){
 }
 
 
-void delete_node(bst *t, int key){
-    if((*t)==NULL)
-    return;
-    node *p,*q;
-    p=(*t);
-    q = NULL;
 
-    // rootnode with zero child
-    if(p->mis == key && q==NULL && p->left==NULL &&p->right==NULL){
-	free(p);
-	p = NULL;
-	return;
+void postorder(bst t){
+    if(t==NULL){
+        return;
     }
-    // root with one child
-    if(p->mis == key && q == NULL && p->left){
-        q = p;
-        p = p->left;
-        free(q);
-	return;
-    }
-    if(p->mis == key && q == NULL && p->right){
-	q=p;
-	p=p->right;
-	free(q);
-	return;
-   }
-
-    // leaf nodes
-   while(1){	   
-     if(key > p->mis &&p->right){
-    	q=p;
-	p=p->right;
-    }
-     if(key < p->mis && p->left){
-	q=p;
-	p=p->left;
-     }
-
-    if(p->right == NULL && p->mis == key && p->left==NULL){
-	p=NULL;
-	free(p);
-	printf("Leaf node deleted successfully");
-	return;
-   
-    }
-    // node in middle with some child node
-    if(p->mis == key &&(p->right || p->left)){
-	
-	// one child node
-	if (p->right && !p->left){
-		q = p->right;
-		p->right=p->right->right;
-		free(q);
-		q=NULL;
-	}
-	if(p->left && !p->right){
-		q= p->left;
-		p->left = p->left->left;
-		free(q);
-		q=NULL
-	}
-
-	// Multiple node
-	// code from here
-
-    }
-
-   }
-
+    if(t->left)
+    postorder(t->left);
+    if(t->right)
     
-   
-   
-	
+    postorder(t->right);
+    printf("%d \t %s\n",t->mis,t->name) ;
+}
+
+
+
+void delete_node(bst* t,int key){
+
+    if((*t) == NULL){
+
+        return;
+    }
+    if((*t)->left == NULL && (*t)->right == NULL && (*t)->parent==NULL){
+        (*t)=NULL;
+        return;
+    }
+
+    node* temp = (*t);
+    node* p;
+
+    while(temp){
+
+        if(temp ->mis == key){
+            break;
+        }
+        else if(temp ->mis > key){
+            temp = temp ->left;
+        }
+        else{
+            temp = temp ->right;
+        }
+    }
+    if(!temp)
+        return;
+
+    if(temp ->left == temp ->right){
+
+         p = temp->parent;
+        
+        if(p->left == temp){
+            p->left = NULL;
+            free(temp);
+            return;
+        }
+        p->right = NULL;
+        free(temp);
+        return;
+        
+    }
+    if(temp->right && !temp->left){
+        p= temp->parent;
+        if(p->right == temp){
+            p->right=temp->right;
+            free(temp);
+            return;
+        }
+        p->left =temp->right;
+        free(temp);
+        return;
+
+    }
+    if(!temp->right && temp->left){
+        p= temp->parent;
+        if(p->right == temp){
+            p->right=temp->left;
+            free(temp);
+            return;
+        }
+        p->left =temp->left;
+        free(temp);
+        return;
+        
+    }
+
+    if(temp->right && temp->left){
+        p=temp->right;
+        node* m = p;
+        if(!p->left){
+            temp->mis = p->mis;
+           strcpy(temp->name,p->name);
+           temp->right = p->right;
+           free(p);
+           return;
+        }
+        while(m->left != NULL){
+            m = m->left;
+        }
+        temp->mis = m->mis;
+        strcpy(temp->name,m->name);
+        free(m);
+        return;
+
+
+    }
+
 
 }
+

@@ -10,18 +10,18 @@ int main(){
     
     //insert
     insert_node(&t1,17,"shitij");
-    insert_node(&t1,2,"anuj");
+   /* insert_node(&t1,2,"anuj");
     insert_node(&t1,43,"nupur");
-    insert_node(&t1,5,"prathamesh");
+    insert_node(&t1,45,"prathamesh");
     insert_node(&t1,6,"pallavi");
     insert_node(&t1,11,"vedanti");
     insert_node(&t1,67,"viren");
-    insert_node(&t1,80,"shubham");
+    insert_node(&t1,44,"shubham");
     insert_node(&t1,9,"aneerban");
     insert_node(&t1,10,"Aditya");
     insert_node(&t1,15,"arjun");
     insert_node(&t1,12,"Rohit");
-  
+  */
     
     //display
     printf("\nDisplaying tree\n");
@@ -38,9 +38,13 @@ int main(){
 
     //delete node
     printf("\n \nDelete Node: \n");
-    //delete_node(&t1,12);
+    delete_node(&t1,17);
+    printf("After deletion\n");
     postorder(t1);
-    
+
+
+
+
     // delete tree
     printf("\n \nDeleting Tree: \n");
     destroy(&t1);
