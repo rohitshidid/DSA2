@@ -1,35 +1,70 @@
-#include"bst.h"
-#include<stdio.h>
-#include<stdlib.h>
+// C program for iterative postorder traversal using one stack
+#include <stdio.h>
+#include <stdlib.h>
+#include "bst.h"
+// Maximum stack size
+#define MAX_SIZE 100
 
-typedef struct stack
-{
-	node *n;
-	struct stack *next;
+
+
+// Stack type
+typedef struct stack{
+
+	node* n;
+	struct stack* next;
 }stack;
 
-typedef stack* ss; 
-
-init_stack(ss *s1){
-	(*s1)=  NULL;
+void initStack(stack** s){
+	
+	*s = NULL;
+	return;
 }
 
-int isempty(ss s1){
-	if(!ss){
+
+void push(stack** s,node** temp){
+
+	if(*s == NULL){
+		
+		stack* p = (stack*) malloc (sizeof(stack));
+		if (!p)
+			return;
+		p-> n = (*temp);
+		p -> next = NULL;
+		(*s) = p;
+		return;
+	}
+	
+	stack* p = (stack*) malloc (sizeof(stack));
+	if (!p)
+		return;
+	p -> n = *temp;
+	p -> next = *s;
+	*s = p;
+
+
+}
+
+node* peek(stack* s){
+	
+	return(s->n);
+}
+
+int isEmpty(stack* s){
+	
+	if(s == NULL){
 		return 1;
 	}
-	return 0; 
+
+	return 0;
 }
 
-void pop(ss *s1){
-	(*s1)= (*s1)->next;
-}
-
-void push(ss *s1, node *nn){
-	ss temp;
-	temp = (ss)malloc(sizeof(ss));
-	temp->n = nn;
-	(*s1)->n = nn;
-	(*s1)->next 
+node* pop(stack** s){
 	
+	node* temp = (*s) -> n;
+	(*s) = (*s) -> next;
+
+	return temp;
 }
+	
+
+

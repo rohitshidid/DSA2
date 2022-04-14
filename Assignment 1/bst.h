@@ -99,7 +99,7 @@ void display_level(bst t,int lev){
 }
 
 
-
+/*
 void postorder(bst t){
     if(t==NULL){
         return;
@@ -110,7 +110,7 @@ void postorder(bst t){
     
     postorder(t->right);
     printf("%d \t %s\n",t->mis,t->name) ;
-}
+}*/
 
 
 
@@ -206,3 +206,97 @@ void delete_node(bst* t,int key){
 
 }
 
+
+
+
+
+// Stack type
+typedef struct stack{
+
+	node* n;
+	struct stack* next;
+}stack;
+
+void initStack(stack** s){
+	
+	*s = NULL;
+	return;
+}
+
+
+void push(stack** s,node** temp){
+
+	if(*s == NULL){
+		
+		stack* p = (stack*) malloc (sizeof(stack));
+		if (!p)
+			return;
+		p-> n = (*temp);
+		p -> next = NULL;
+		(*s) = p;
+		return;
+	}
+	
+	stack* p = (stack*) malloc (sizeof(stack));
+	if (!p)
+		return;
+	p -> n = *temp;
+	p -> next = *s;
+	*s = p;
+
+
+}
+
+node* peek(stack* s){
+	
+	return(s->n);
+}
+
+int isEmpty(stack* s){
+	
+	if(s == NULL){
+		return 1;
+	}
+
+	return 0;
+}
+
+node* pop(stack** s){
+	
+	node* temp = (*s) -> n;
+	(*s) = (*s) -> next;
+
+	return temp;
+}
+
+void postorder(bst t){
+
+	if(!t)
+		return;
+	
+	node* previous = NULL;
+	stack* ss;
+	initStack(&ss);
+	while(1){
+		while(t != NULL){
+			push(&ss,&t);
+			t = t ->left;
+		}
+		while( t == NULL && !isEmpty(ss)){
+			t = peek(ss);
+			if(t -> right == NULL || t -> right == previous){
+
+				t = pop(&ss);
+				previous = t;
+				printf("\nMIS = %d ",t ->mis);
+				printf("\tName = %s ",t ->name);
+				printf("\n");
+				t = NULL;
+			}
+			else
+				t = t ->right;
+		}
+		if(isEmpty(ss))
+			return;
+	}
+}
