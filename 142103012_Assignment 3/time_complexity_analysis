@@ -1,0 +1,23 @@
+Time complexity for the function init_tree() can be determined as folows ->
+The worst case complexity would be when the string has even number of
+characters.
+Every time the string divides into two equal parts, i.e. n/2.
+n/2*n/2^2*n/2^3...... = k
+Therefore the time complexity for the recursion would be log n with base 2.
+Also the while loop would run for n times in the worst case every time
+recursion tasks place
+Hence the overall complexity fo rthe function would be O(n*logn)
+
+Time complexity for Compute() function would be ->
+Let n be the height of the tree. The time taken in the worst case would be n,
+as every node cannot have operator on both sides, and has a leaf node on either
+side.
+The time taken for evaluating will be constant and will be called n number of
+times.
+Hence, the overall complexity of the functon would be O(n).
+
+Time Complexity for inorder traversal will be ->
+Worst case complexity for inorder traversal would be O(n), where n is the
+number of nodes in the tree.
+Traversal involves reaching out to every node of the tree, hence the time
+complexity for any traversal would be O(n).
