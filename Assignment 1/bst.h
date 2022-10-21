@@ -8,7 +8,7 @@ typedef struct Node{
     struct Node *parent, *left,*right;
 
 }node;
-
+// fixed the issue
 typedef node *bst;
 
 void init_tree(bst *t){
